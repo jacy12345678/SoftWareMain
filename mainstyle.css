@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu',sans-serif;
+}
+:root
+{
+    --green:#00AEAE;
+    --white:#fff;
+    --black2:#999;
+}
+body
+{
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.container
+{
+    position: relative;
+    width: 100%;
+}
+.nevigation
+{
+    border-left: 10px solid var(--green);
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background-color: var(--green);
+    transition: 0.5s;
+    overflow-x: hidden;
+}
+.nevigation.active
+{
+    width: 80px;
+}
+.nevigation ul
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.nevigation ul li
+{
+    position: relative;
+    width: 100%;
+    list-style: none;
+    
+}
+.nevigation ul li:hover
+{
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background:var(--white);
+}
+.nevigation ul li:hover a
+{
+    color: var(--green);
+}
+.nevigation ul li:hover a::before
+{
+    content:'';
+    position: absolute;
+    right:0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    top:-50px;
+    border-radius: 50%;
+    box-shadow: 35px 35px 0 10px var(--white);
+    pointer-events: none;
+}
+.nevigation ul li:hover a::after
+{
+    content:'';
+    position: absolute;
+    right:0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    bottom:-50px;
+    border-radius: 50%;
+    box-shadow: 35px -35px 0 10px var(--white);
+    pointer-events: none;
+}
+.nevigation ul li a
+{
+    position: relative;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    display: flex;
+    color: var(--white);
+}
+.nevigation ul li a .icon
+{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height:70px;
+    text-align: center;
+}
+.nevigation ul li a .icon ion-icon
+{
+    font-size: 1.75em;
+}
+.nevigation ul li a .title
+{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    text-align: start;
+    line-height: 55px;
+    font-size:30px;
+}
+.nevigation ul li:nth-child(1)
+{
+    font-weight: 900;
+    pointer-events: none;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    color: var(--white);
+}
+.nevigation ul li:nth-child(4)
+{
+    margin-top: 420px;
+}
+.nevigation ul li:nth-child(1) a
+{
+    color: var(--white);
+}
+.log
+{
+    position: relative;
+    bottom: 0px;
+    background-color: #00AEAE;
+    width: 300px;
+    position: fixed;
+    height: 75.36px;
+    text-align: center;
+}
+.log:hover
+{
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background:var(--white);
+}
+.log:hover a::after
+{
+    content:'';
+    position: absolute;
+    right:0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    top:-50px;
+    border-radius: 50%;
+    box-shadow: 25px 25px 0 1px var(--white);
+    pointer-events: none;
+}
+.log a
+{
+    position: relative;
+    text-decoration: none;
+    display: block;
+    display: flex;
+    color: var(--white);
+}
+.log a .icon
+{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height:70px;
+    text-align: center;
+}
+.log a .icon ion-icon
+{
+    font-size: 1.75em;
+}
+.log a:hover
+{
+    color: var(--white);
+}
+.log:hover a
+{
+    color: var(--green);
+}
+.log a .title
+{
+    position: relative;
+    display: block;
+    height: 60px;
+    text-align: start;
+    line-height: 55px;
+    font-size:30px;
+}
+
+.main
+{
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    transition-duration: 0.5s;
+    min-height: 100vh;
+}
+.main.active
+{
+    width: calc(100% - 80px);
+    left: 80px;
+}
+.topbar
+{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.search label input
+{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    font-size: 18px;
+    padding-left: 35px;
+    outline:none;
+    border: 1px solid var(--black2);
+}
+.toggle ion-icon
+{
+    font-size: 2.5em;
+    cursor: pointer;
+}
+.search label 
+{
+    display: flex;
+}
+.search label ion-icon
+{
+    position: absolute;
+    font-size: 1.75em;
+    padding-left: 5px;
+    padding-top: 6px;
+}
+.print
+{   
+    position: relative;
+    width: 100%;
+    height: 80px;
+    display: flex;
+}
+.table1
+{
+    position: relative;
+    width: 100%;
+    margin-right:50px;
+    display: flex;
+    left: 330px;
+    transition: 0.5s;
+}
+.table1.active
+{
+    left: 450px;
+}
+.table1 input
+{
+    background-color: var(--green);
+    color: var(--white);
+    border-radius: 40px;
+    font-size: 30px;
+    margin: 10px;
+    padding: 10px;
+}
+.table1 input:hover
+{
+    background-color: var(--white);
+    color: var(--black2);
+}
+.listbox
+{
+    height: 500px;
+    width: 100%;
+    display: flex;
+
+    
+}
+.select1
+{
+    width: 50%;
+    height: 100%;
+    margin-left: 50px;
+    margin-top: 40px;
+    font-size: 20px;
+}
+.lable
+{
+    margin-top: 100px;
+    margin-left: 100px;
+}
