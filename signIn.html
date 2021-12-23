@@ -5,77 +5,23 @@
         <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
         <title>南華點名系統</title>
-        <link rel="stylesheet" type ="text/css" href="mainstyle.css">
+        <link rel="stylesheet" type ="text/css" href="sign.css">
     </head>
     <body>
         <div class="container">
-            <div class="nevigation">
-                <ul>
-                    <li>
-                        <a href="#">
-                            <span class="icon"><ion-icon name="trending-up-outline"></ion-icon></span>
-                            <span class="title">點名系統    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="home()">
-                            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                            <span class="title">首頁</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="showclass()">
-                            <span class="icon"><ion-icon name="library-outline"></ion-icon></span>
-                            <span class="title">課程</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="#" onclick="signin()">
-                            <span class="icon"><ion-icon name="log-in-outline"></ion-icon></span>
-                            <span class="title">登入</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
             <div class="main">
-                <div class="topbar">
-                    <div class="toggle">
-                        <ion-icon name="menu-outline"></ion-icon>
-                    </div>
-                    <div class="search">
-                        <label>
-                            <ion-icon name="search-outline"></ion-icon>
-                            <input type="text" placeholder="Search here">
-                        </label>
-                    </div>
-                    <img src="1.bmp" width="100px" height="100px">
-                </div>
-                <div class="print">
-                    <div class="table1">
-                        <input type="button" value="所有名單" onclick="">
-                        <input type="button" value="簽到名單" onclick="">
-                        <input type="button" value="未到名單" onclick="">
-                    </div>
-                </div>
-                <div class="listbox">
-                    <select multiple='multiple' class="select1">
-                        <option value="選項2">選項2</option>
-                        <option value="選項3">選項3</option>
-                        <option value="選項4">選項4</option>
-                        <option value="選項5">選項5</option>
-                        <option value="選項6">選項6</option>
-                        <option value="選項7">選項7</option>
-                        <option value="選項2">選項2</option>
-                        <option value="選項3">選項3</option>
-                        <option value="選項4">選項4</option>
-                        <option value="選項5">選項5</option>
-                    </select>
-                    <div class="lable">
-                        aaaa
-                    </div>
-                </div>
+                <ul>
+                    <span class="title">帳號</span>
+                    <input type="text" id="account">
+                </ul>
+                <ul>
+                    <span class="title">密碼</span>
+                    <input type="text" id="password">
+                    
+                </ul>
+                <input type="button" value="登入" id="login">
             </div>
+            
         </div>
         <script src="js.js"></script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -83,40 +29,62 @@
         <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
           
             // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
             const firebaseConfig = {
-              apiKey: "AIzaSyBG5bmj7BqPeVK7tlpTXXTMIndwG7g23m0",
-              authDomain: "rollcall-8f08a.firebaseapp.com",
-              databaseURL: "https://rollcall-8f08a-default-rtdb.firebaseio.com",
-              projectId: "rollcall-8f08a",
-              storageBucket: "rollcall-8f08a.appspot.com",
-              messagingSenderId: "837111101145",
-              appId: "1:837111101145:web:f936228423f3f1a29130c8",
-              measurementId: "G-LDF21HJ1GN"
+                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
+                authDomain: "software-26de8.firebaseapp.com",
+                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
+                projectId: "software-26de8",
+                storageBucket: "software-26de8.appspot.com",
+                messagingSenderId: "978433740455",
+                appId: "1:978433740455:web:47195227518cbad57dd582"
             };
-          
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-        </script>
-        <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyBG5bmj7BqPeVK7tlpTXXTMIndwG7g23m0",
-            authDomain: "rollcall-8f08a.firebaseapp.com",
-            databaseURL: "https://rollcall-8f08a-default-rtdb.firebaseio.com",
-            projectId: "rollcall-8f08a",
-            storageBucket: "rollcall-8f08a.appspot.com",
-            messagingSenderId: "837111101145",
-            appId: "1:837111101145:web:f936228423f3f1a29130c8",
-            measurementId: "G-LDF21HJ1GN"
-        };
-        firebase.initializeApp(firebaseConfig);
-        
-        </script>
+            import{getDatabase, ref, set,get, child, update, remove}
+            from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+            const db = getDatabase();
+            const dbRef = ref(getDatabase());
+
+            function test(){
+                get(child(dbRef, `108001/password`)).then((v)=>{console.log(v.val())})
+            }
+            function enter(){
+            var pw;
+            get(child(dbRef, `${document.getElementById("account").value}/password`)).then((v)=>{pw=v.val()})
+            get(child(dbRef, `/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                snapshot.forEach(function(child) {
+                    var keys=child.key;
+                    console.log("keys="+child.val);
+                    var enteraccount=document.getElementById("account").value;
+                    console.log("enta="+enteraccount);
+                    var enterpw=document.getElementById("password").value;
+                    console.log("enterp="+enterpw)
+                    console.log("p="+pw)
+                    if(enteraccount==keys&&enterpw==pw){
+                        window.parent.location="signed.html?id="+`${enteraccount}`;
+                        parent.mainpw=enterpw;
+                        parent.mainaccount=enteraccount;
+                        alert("登入成功");
+                        
+                    }
+                }
+             )
+             
+            } else {
+                console.log("No data available");
+            }
+            }).catch((error) => {
+            console.error(error);
+            }); 
+            }
+            var login=document.getElementById("login");
+            login.addEventListener("click",enter);
+          </script>
     </body>
 </html>

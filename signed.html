@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv=Content-Type content="text/html; charset=utf-8">
+        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+        <title>南華點名系統</title>
+        <link rel="stylesheet" type ="text/css" href="mainstyle.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="nevigation">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icon"><ion-icon name="trending-up-outline"></ion-icon></span>
+                            <span class="title">點名系統    </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" id="home">
+                            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="title">首頁</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" id="class" >
+                            <span class="icon"><ion-icon name="library-outline"></ion-icon></span>
+                            <span class="title">課程</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0)" id="signout">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="title">登出</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="main">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var mainaccount=0;
+                var mainpw=0;
+            </script>
+            
+        </div>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="js.js"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyDuY-zL3p94Lw3dZu04yHfAbJ58bvy2Wh4",
+                authDomain: "software-52c41.firebaseapp.com",
+                databaseURL: "https://software-52c41-default-rtdb.firebaseio.com",
+                projectId: "software-52c41",
+                storageBucket: "software-52c41.appspot.com",
+                messagingSenderId: "1028334921195",
+                appId: "1:1028334921195:web:c5bb73aefc8809ed5825ae"
+            };
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            import{getDatabase, ref,get, set, child, update, remove}
+            from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+            const db = getDatabase();
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            function showclass(){
+                window.parent.location="class.html?id="+url.searchParams.get('id');
+                navigation.classList.remove("active");
+                main.classList.remove("active");
+                table1.classList.remove("active");
+            }
+            var Id1=document.getElementById("class");
+            Id1.addEventListener("click",showclass);
+            var Home=document.getElementById("home");
+            Home.addEventListener("click",home);
+            var sign=document.getElementById("signout");
+            sign.addEventListener("click",signout);
+            function home(){
+                window.parent.location="signed.html?id="+url.searchParams.get('id');
+                navigation.classList.remove("active");
+                main.classList.remove("active");
+                table1.classList.remove("active");
+            }
+            function signout(){
+                window.alert("以登出");
+                window.location="index2.html";
+                navigation.classList.remove("active");
+                main.classList.remove("active");
+                table1.classList.remove("active");
+            }
+            
+          </script>
+
+    </body>
+</html>
