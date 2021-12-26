@@ -5,7 +5,7 @@
         <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
         <title>南華點名系統</title>
-        <link rel="stylesheet" type ="text/css" href="mainstyle.css">
+        <link rel="stylesheet" type ="text/css" href="home.css">
     </head>
     <body>
         <div class="container">
@@ -40,18 +40,35 @@
             </div>
             <div class="main">
                 <div class="topbar">
-                    <div class="toggle">
-                        <ion-icon name="menu-outline"></ion-icon>
+                    <div class="search">
+                        <label>
+                            <ion-icon name="search-outline"></ion-icon>
+                            <input type="text" placeholder="Search here">
+                        </label>
                     </div>
-                    <h id="h"></h>
                 </div>
-                
+                <div class="print">
+                    <div class="table1">
+                        <input type="button" value="簽到名單" >
+                        <input type="button" value="簽到名單" onclick="">
+                        <input type="button" value="未到名單" onclick="">
+                    </div>
+                </div>
+                <div class="listbox">
+                    <select multiple='multiple' class="select1">
+                        <option value="選項2">選項2</option>
+                        <option value="選項3">選項3</option>
+                        <option value="選項4">選項4</option>
+                        <option value="選項5">選項5</option>
+                        <option value="選項6">選項6</option>
+                        <option value="選項7">選項7</option>
+                        <option value="選項2">選項2</option>
+                        <option value="選項3">選項3</option>
+                        <option value="選項4">選項4</option>
+                        <option value="選項5">選項5</option>
+                    </select>
+                </div>
             </div>
-            <script>
-                var mainaccount=0;
-                var mainpw=0;
-            </script>
-            
         </div>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -92,19 +109,18 @@
             var sign=document.getElementById("signout");
             sign.addEventListener("click",signout);
             function home(){
-                window.parent.location="signed.html?id="+url.searchParams.get('id');
+                window.parent.location="home.html?id="+url.searchParams.get('id');
                 navigation.classList.remove("active");
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
             function signout(){
-                window.alert("已登出");
+                window.alert("以登出");
                 window.location="index2.html";
                 navigation.classList.remove("active");
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
-            
           </script>
 
     </body>

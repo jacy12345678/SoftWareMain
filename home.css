@@ -138,7 +138,6 @@ body
 .main
 {
     position: absolute;
-    width: 60px;
     width: calc(100% - 300px);
     left: 300px;
     transition-duration: 0.5s;
@@ -169,28 +168,6 @@ body
     outline:none;
     border: 1px solid var(--black2);
 }
-.show
-{
-    margin-top: 20px;
-}
-#tname
-{
-    padding: 2px;
-    padding-left:4px ;
-    padding-right:4px ;
-    border: 1px solid var(--black2);
-    background-color: var(--green);
-    color: var(--white);
-    border-radius: 30px;
-    position: absolute;
-    left: 80px;
-    font-size: 30px;
-    pointer-events: none;
-}
-.toggle
-{
-    display: flex;
-}
 .toggle ion-icon
 {
     font-size: 2.5em;
@@ -220,12 +197,12 @@ body
     width: 100%;
     margin-right:50px;
     display: flex;
-    left: 330px;
     transition: 0.5s;
+    
 }
 .table1.active
 {
-    left: 450px;
+    left: 330px;
 }
 .table1 input
 {
@@ -249,32 +226,15 @@ body
 
     
 }
-#select1
+.select1
 {
-    width: 50%;
+    width: 70%;
     height: 100%;
-    margin-left: 50px;
     margin-top: 40px;
     font-size: 20px;
-    border-radius: 10px;
-    background-color: #00AEAE;
-    color:var(--white);
-    appearance: none;
-    border: 2px solid #000;
-    overflow: hidden;
 }
 .lable
 {
     margin-top: 100px;
     margin-left: 100px;
-}
-#myframe
-{
-    padding-left: -100px;
-}
-#studentList{
-    width: 70vh;
-    margin-top: 20px;
-    margin-left: 20px;
-    font-size: 20px;
 }

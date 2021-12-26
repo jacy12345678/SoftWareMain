@@ -18,22 +18,22 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" onclick="home()">
+                        <a href="javascript:void(0)" id="home">
                             <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
                             <span class="title">首頁</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" onclick="showclass()">
+                        <a href="javascript:void(0)" id="class" >
                             <span class="icon"><ion-icon name="library-outline"></ion-icon></span>
                             <span class="title">課程</span>
                         </a>
                     </li>
                     
                     <li>
-                        <a href="#" onclick="signin()">
-                            <span class="icon"><ion-icon name="log-in-outline"></ion-icon></span>
-                            <span class="title">登入</span>
+                        <a href="javascript:void(0)" id="signout">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="title">登出</span>
                         </a>
                     </li>
                 </ul>
@@ -42,66 +42,165 @@
                 <div class="topbar">
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
-                    </div>
-                    <div class="search">
-                        <label>
-                            <ion-icon name="search-outline"></ion-icon>
-                            <input type="text" placeholder="Search here">
-                        </label>
-                    </div>
-                    <img src="1.bmp" width="100px" height="100px">
-                </div>
-                <div class="print">
-                    <div class="table1">
-                        
+                        <ol id="tname"></ol>
                     </div>
                 </div>
-                <div class="listbox">
-                    
-                   
+                <div class="show">
+                    <form name="myForm">
+                        <select id="select1" onchange="classchange(this.selectedIndex)" name="member" size="4" style="width: 200px; font-size: 20px; margin-left: 10px;">
+                        </select>
+                    </form>
+                    <ol id="studentList"></ol>
                 </div>
+
+
             </div>
+            
+            
         </div>
-        <script src="js.js"></script>
+        
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
           
             // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
             const firebaseConfig = {
-              apiKey: "AIzaSyBG5bmj7BqPeVK7tlpTXXTMIndwG7g23m0",
-              authDomain: "rollcall-8f08a.firebaseapp.com",
-              databaseURL: "https://rollcall-8f08a-default-rtdb.firebaseio.com",
-              projectId: "rollcall-8f08a",
-              storageBucket: "rollcall-8f08a.appspot.com",
-              messagingSenderId: "837111101145",
-              appId: "1:837111101145:web:f936228423f3f1a29130c8",
-              measurementId: "G-LDF21HJ1GN"
+                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
+                authDomain: "software-26de8.firebaseapp.com",
+                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
+                projectId: "software-26de8",
+                storageBucket: "software-26de8.appspot.com",
+                messagingSenderId: "978433740455",
+                appId: "1:978433740455:web:47195227518cbad57dd582"
             };
-          
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-        </script>
-        <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyBG5bmj7BqPeVK7tlpTXXTMIndwG7g23m0",
-            authDomain: "rollcall-8f08a.firebaseapp.com",
-            databaseURL: "https://rollcall-8f08a-default-rtdb.firebaseio.com",
-            projectId: "rollcall-8f08a",
-            storageBucket: "rollcall-8f08a.appspot.com",
-            messagingSenderId: "837111101145",
-            appId: "1:837111101145:web:f936228423f3f1a29130c8",
-            measurementId: "G-LDF21HJ1GN"
-        };
-        firebase.initializeApp(firebaseConfig);
-        
-        </script>
+            import{getDatabase, ref,get, set, child, update, remove,onValue}
+            from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+            const db = getDatabase();
+            
+            const dbRef = ref(getDatabase());
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            var id=url.searchParams.get('id')
+            get(child(dbRef, `${id}/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+                snapshot.forEach(function(child) {
+                    var keys=child.key;
+                    classArraay.push(keys);
+                    console.log("keys="+classArraay);
+                }
+                
+             )
+                indexclass=classArraay[2];
+                getStdId(indexclass);
+                
+             
+            } else {
+                console.log("No data available");
+            }
+            }).catch((error) => {
+            console.error(error);
+            }); 
+            
+            var Home=document.getElementById("home");
+
+            Home.addEventListener("click",home);
+            var sign=document.getElementById("signout");
+            sign.addEventListener("click",signout);
+            function home(){
+                window.parent.location="signed.html?id="+url.searchParams.get('id');
+                navigation.classList.remove("active");
+                main.classList.remove("active");
+                table1.classList.remove("active");
+            }
+            function classchange(index){
+            let indexvlaue=classArraay[index+2];
+            console.log(indexvlaue);
+            }
+            function signout(){
+                window.alert("已登出");
+                window.location="index2.html";
+                navigation.classList.remove("active");
+                main.classList.remove("active");
+                table1.classList.remove("active");
+            }
+            const nameref=ref(db,id+"/name");
+            onValue(nameref, (snapshot) => {
+                teachername = snapshot.val();
+            });
+            function getStdId(classname){
+                studentID=[];
+                get(child(dbRef, `${id}/${classname}`)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        snapshot.forEach(function(child) {
+                            var keys=child.key;
+                            studentID.push(keys);
+                            }
+                        )
+                        studentID.length=studentID.length-2;
+                        console.log(classname+":"+studentID);
+                        printStdState(classname);
+                    } else {
+                        console.log("No data available");
+                    }
+                }).catch((error) => {
+                console.error(error);
+                }); 
+
+            }
+            
+            function printStdState(classname){
+                let i;
+                studentName=[];
+                studentState=[];
+                studentID.forEach(function(child){
+                    const stdnameref=ref(db,id+"/"+classname+"/"+child+"/name");
+                    onValue(stdnameref,(snapshot)=>{
+                        studentName.push(snapshot.val());
+                    })
+                    const stdStateref=ref(db,id+"/"+classname+"/"+child+"/state");
+                    onValue(stdStateref,(snapshot)=>{
+                        studentState.push(snapshot.val());
+                    })
+                })
+                
+                setTimeout(olprint,500);
+            }
+            function olprint(){
+                document.getElementById("studentList").innerHTML="";//清空ol
+                let i;
+                for(i=0;i<studentID.length;i++){
+                    var img=document.createElement("img");
+                    var newP = document.createElement("a");
+                    img.width="20";
+                    img.height="20";
+                    if(studentState[i]==1){
+                        var state="已簽到"
+                        img.src="yes.jpg";
+                        }else{
+                            state="未簽到"
+                            img.src="no.png";
+                        }
+                    var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+state+"\u3000");
+                    newP.appendChild(textNode);
+                    document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
+
+                }
+            }
+            document.getElementById("select1").addEventListener('change',(event)=>{
+                getStdId(event.target.value);
+                
+            });
+            setTimeout('addclass()',1000);
+            setTimeout('setname()',1000);
+          </script>
+          <script src="js.js"></script>
+
     </body>
 </html>

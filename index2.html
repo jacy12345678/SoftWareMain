@@ -31,9 +31,9 @@
                     </li>
                     
                     <li>
-                        <a href="javascript:void(0)" id="signout">
-                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-                            <span class="title">登出</span>
+                        <a href="javascript:void(0)" id="sign">
+                            <span class="icon"><ion-icon name="log-in-outline"></ion-icon></span>
+                            <span class="title">登入</span>
                         </a>
                     </li>
                 </ul>
@@ -43,14 +43,10 @@
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
                     </div>
-                    <h id="h"></h>
                 </div>
-                
+
             </div>
-            <script>
-                var mainaccount=0;
-                var mainpw=0;
-            </script>
+            
             
         </div>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -77,10 +73,8 @@
             import{getDatabase, ref,get, set, child, update, remove}
             from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
             const db = getDatabase();
-            var getUrlString = location.href;
-            var url = new URL(getUrlString);
             function showclass(){
-                window.parent.location="class.html?id="+url.searchParams.get('id');
+                alert("請先登入")
                 navigation.classList.remove("active");
                 main.classList.remove("active");
                 table1.classList.remove("active");
@@ -89,22 +83,22 @@
             Id1.addEventListener("click",showclass);
             var Home=document.getElementById("home");
             Home.addEventListener("click",home);
-            var sign=document.getElementById("signout");
-            sign.addEventListener("click",signout);
+            var sign=document.getElementById("sign");
+            sign.addEventListener("click",signin);
             function home(){
-                window.parent.location="signed.html?id="+url.searchParams.get('id');
+                document.getElementById("myframe").src="home.html";
                 navigation.classList.remove("active");
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
-            function signout(){
-                window.alert("已登出");
-                window.location="index2.html";
+            function signin(){
+                window.location="signIn.html"
                 navigation.classList.remove("active");
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
-            
+            var mainpw;
+            var mianaccount;
           </script>
 
     </body>
