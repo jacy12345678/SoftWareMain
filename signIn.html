@@ -54,6 +54,7 @@
             }
             function enter(){
             var pw;
+            var b=true;
             get(child(dbRef, `${document.getElementById("account").value}/password`)).then((v)=>{pw=v.val()})
             get(child(dbRef, `/`)).then((snapshot) => {
             if (snapshot.exists()) {
@@ -71,10 +72,11 @@
                         parent.mainpw=enterpw;
                         parent.mainaccount=enteraccount;
                         alert("登入成功");
-                        
+                        b=false;
                     }
                 }
              )
+             if(b){alert("帳號或密碼錯誤");}
              
             } else {
                 console.log("No data available");
@@ -83,6 +85,12 @@
             console.error(error);
             }); 
             }
+            var button=document.getElementById("password");
+            button.addEventListener("keyup",function(event){
+                if(event.keyCode==13){
+                        enter();
+                }   
+            })
             var login=document.getElementById("login");
             login.addEventListener("click",enter);
           </script>
