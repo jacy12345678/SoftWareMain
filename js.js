@@ -31,15 +31,24 @@ function addclass(){
         document.myForm.member.options[i-2]=new Option(classArraay[i]);	// 設定新選項
         document.myForm.member.length=classArraay.length-2;
     }
-    
+
     
 }
+
 function classchange(index){
   indexclass=classArraay[index+2];
   console.log(indexclass);
+  document.getElementById("Name").innerHTML=""
+  var newP = document.createElement("a");
+  var textNode = document.createTextNode(indexclass);
+  newP.appendChild(textNode);
+  document.getElementById("Name").appendChild(newP);
 }
 function setname(){
   let tname=document.getElementById("tname");
   tname.textContent=teachername;
+}
+function printClassName(){
+  
 }
 

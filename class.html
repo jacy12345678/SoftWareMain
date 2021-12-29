@@ -49,8 +49,18 @@
                     <form name="myForm">
                         <select id="select1" onchange="classchange(this.selectedIndex)" name="member" size="4" style="width: 200px; font-size: 20px; margin-left: 10px;">
                         </select>
+                        <div id="Name"></div>
                     </form>
                     <ol id="studentList"></ol>
+                    <div class="buttonlist">
+                        <input type="button" value="所有名單" id="alllist">
+                        <input type="button" value="已簽到名單" id="signedlist">
+                        <input type="button" value="未簽到名單" id="signlesslist">
+                        <div class="search2">
+                            <input type="text" id="inputsearch" style="cursor:text; color: black; text-align: center;">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -87,27 +97,33 @@
             var getUrlString = location.href;
             var url = new URL(getUrlString);
             var id=url.searchParams.get('id')
-            get(child(dbRef, `${id}/`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                console.log(snapshot.val());
-                snapshot.forEach(function(child) {
-                    var keys=child.key;
-                    classArraay.push(keys);
-                    console.log("keys="+classArraay);
+            function getdata(){
+                get(child(dbRef, `${id}/`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function(child) {
+                        var keys=child.key;
+                        classArraay.push(keys);
+                        console.log("keys="+classArraay);
+                    }
+                    
+                )
+                    indexclass=classArraay[2];
+                    getStdId(indexclass);
+                    
+                
+                } else {
+                    console.log("No data available");
                 }
-                
-             )
-                indexclass=classArraay[2];
-                getStdId(indexclass);
-                
-             
-            } else {
-                console.log("No data available");
+                }).catch((error) => {
+                console.error(error);
+                }); 
+                const nameref=ref(db,id+"/name");
+                onValue(nameref, (snapshot) => {
+                    teachername = snapshot.val();
+            });
+                return new Promise((resolve ,reject)=>{resolve("Resolved");})
             }
-            }).catch((error) => {
-            console.error(error);
-            }); 
-            
             var Home=document.getElementById("home");
 
             Home.addEventListener("click",home);
@@ -130,10 +146,6 @@
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
-            const nameref=ref(db,id+"/name");
-            onValue(nameref, (snapshot) => {
-                teachername = snapshot.val();
-            });
             function getStdId(classname){
                 studentID=[];
                 get(child(dbRef, `${id}/${classname}`)).then((snapshot) => {
@@ -166,7 +178,12 @@
                     })
                     const stdStateref=ref(db,id+"/"+classname+"/"+child+"/state");
                     onValue(stdStateref,(snapshot)=>{
-                        studentState.push(snapshot.val());
+                        if(snapshot.val()==1){
+                            studentState.push("已簽到");
+                        }else{
+                            studentState.push("未簽到")
+                        }
+                        
                     })
                 })
                 
@@ -177,17 +194,15 @@
                 let i;
                 for(i=0;i<studentID.length;i++){
                     var img=document.createElement("img");
-                    var newP = document.createElement("a");
+                    var newP = document.createElement("hr");
                     img.width="20";
                     img.height="20";
-                    if(studentState[i]==1){
-                        var state="已簽到"
+                    if(studentState[i]=="已簽到"){
                         img.src="yes.jpg";
                         }else{
-                            state="未簽到"
                             img.src="no.png";
                         }
-                    var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+state+"\u3000");
+                    var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
                     newP.appendChild(textNode);
                     document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
 
@@ -197,8 +212,81 @@
                 getStdId(event.target.value);
                 
             });
+            getdata();
             setTimeout('addclass()',1000);
             setTimeout('setname()',1000);
+            var inputsearch=document.getElementById("inputsearch");
+            inputsearch.addEventListener("keyup",function(event){
+            if(event.keyCode==13){
+                search();
+            }   
+            })
+            function search(){
+                document.getElementById("studentList").innerHTML="";//清空ol
+                let i;
+                for(i=0;i<studentID.length;i++){
+                    if(studentID[i].search(inputsearch.value)!=-1 || studentState[i].search(inputsearch.value)!=-1 || studentName[i].search(inputsearch.value)!=-1){
+                        var img=document.createElement("img");
+                        var newP = document.createElement("hr");
+                        img.width="20";
+                        img.height="20";
+                        if(studentState[i]=="已簽到"){
+                            img.src="yes.jpg";
+                            }else{
+                                img.src="no.png";
+                            }
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        newP.appendChild(textNode);
+                        document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
+                    }
+                }
+            }
+            var alllist=document.getElementById("alllist");
+            alllist.addEventListener("click",olprint);
+            var signedlist=document.getElementById("signedlist");
+            signedlist.addEventListener("click",printsignedlist);
+            var signlesslist=document.getElementById("signlesslist");
+            signlesslist.addEventListener("click",printsignlesslist);
+            function printsignedlist(){
+                document.getElementById("studentList").innerHTML="";//清空ol
+                let i;
+                for(i=0;i<studentID.length;i++){
+                    if(studentState[i]=="已簽到"){
+                        var img=document.createElement("img");
+                        var newP = document.createElement("hr");
+                        img.width="20";
+                        img.height="20";
+                        if(studentState[i]=="已簽到"){
+                            img.src="yes.jpg";
+                            }else{
+                                img.src="no.png";
+                            }
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        newP.appendChild(textNode);
+                        document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
+                    }
+                }
+            }
+            function printsignlesslist(){
+                document.getElementById("studentList").innerHTML="";//清空ol
+                let i;
+                for(i=0;i<studentID.length;i++){
+                    if(studentState[i]=="未簽到"){
+                        var img=document.createElement("img");
+                        var newP = document.createElement("hr");
+                        img.width="20";
+                        img.height="20";
+                        if(studentState[i]=="已簽到"){
+                            img.src="yes.jpg";
+                            }else{
+                                img.src="no.png";
+                            }
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        newP.appendChild(textNode);
+                        document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
+                    }
+                }
+            }
           </script>
           <script src="js.js"></script>
 
