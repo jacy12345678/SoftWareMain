@@ -276,7 +276,7 @@ body
 }
 #studentList{
     position: absolute;
-    width: 70vh;
+    width: auto;
     margin: 180px;
     font-size: 20px;
 }
