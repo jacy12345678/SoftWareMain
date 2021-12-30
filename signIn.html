@@ -9,17 +9,17 @@
     </head>
     <body>
         <div class="container">
-            <div class="main">
+            <div class="main" >
                 <ul>
                     <span class="title">帳號</span>
-                    <input type="text" id="account">
+                    <input type="text" id="account" style="border-radius:30px ;">
                 </ul>
                 <ul>
                     <span class="title">密碼</span>
-                    <input type="text" id="password">
+                    <input type="text" id="password" style="border-radius:30px ;" >
                     
                 </ul>
-                <input type="button" value="登入" id="login">
+                <input type="button" value="登入" id="login" style="border-radius:30px ; ">
             </div>
             
         </div>
@@ -44,7 +44,7 @@
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            import{getDatabase, ref, set,get, child, update, remove}
+            import{getDatabase, ref, set,get, child, update, remove, onValue}
             from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
             const db = getDatabase();
             const dbRef = ref(getDatabase());
@@ -68,10 +68,16 @@
                     console.log("enterp="+enterpw)
                     console.log("p="+pw)
                     if(enteraccount==keys&&enterpw==pw){
-                        window.parent.location="signed.html?id="+`${enteraccount}`;
                         parent.mainpw=enterpw;
                         parent.mainaccount=enteraccount;
-                        alert("登入成功");
+                        const nameref=ref(db,enteraccount+"/name");
+                        onValue(nameref, (snapshot) => {
+                        teachername = snapshot.val();
+                        });
+                        setTimeout(function(){
+                            alert(teachername+"老師\n歡迎");
+                            window.parent.location="signed.html?id="+`${enteraccount}`;
+                        },500);
                         b=false;
                     }
                 }
