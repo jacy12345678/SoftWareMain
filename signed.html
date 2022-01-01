@@ -5,11 +5,12 @@
         <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
         <title>南華點名系統</title>
-        <link rel="stylesheet" type ="text/css" href="mainstyle.css">
+        <link rel="stylesheet" type ="text/css" href="signed.css">
+        <link rel="stylesheet" type ="text/css" href="icon.css">
     </head>
     <body>
         <div class="container">
-            <div class="nevigation active">
+            <div class="nevigation">
                 <ul>
                     <li>
                         <a href="#">
@@ -38,19 +39,47 @@
                     </li>
                 </ul>
             </div>
-            <div class="main active">
+            <div class="main">
                 <div class="topbar">
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
+                        <ol id="tname"></ol>
+                        <p style="position: absolute; font-size: 40px; font-weight: 700; margin-left: 160px; ">首頁</p>
                     </div>
-                    <h id="h"></h>
+                </div>
+                <div class="homelist">
+                    <div class="buttonlist">
+                        <input type="button" value="課程" id="b1" class="hovered">
+                        <input type="button" value="課表" id="b2">
+                        <input type="button" value="修改密碼" id="b3">
+                        <input type="button" value="設定" id="b4">
+                        <div class="classframe">
+                            <form name="myForm">
+                                <select id="select1" onchange="classchange(this.selectedIndex)" name="member" size="4" style="width: 200px; font-size: 20px; margin-left: 10px;">
+                                </select>
+                                <div id="Name"></div>
+                            </form>
+                            <div class="button3">
+                                <button id="add">新增學生</button>
+                                <button id="del">刪除學生</button>
+                                <button id="reload">重製簽到狀態</button>
+                            </div>
+                        </div>
+                        <img src="課表.png" class="classimg" style="display: none;">
+                    </div>
                 </div>
                 
             </div>
-            <script>
-                var mainaccount=0;
-                var mainpw=0;
-            </script>
+            <div style="color: var(--green) " class="la-ball-spin-clockwise la-2x">
+                <div id="load0"></div>
+                <div id="load1"></div>
+                <div id="load2"></div>
+                <div id="load3"></div>
+                <div id="load4"></div>
+                <div id="load5"></div>
+                <div id="load6"></div>
+                <div id="load7"></div>
+            </div>
             
         </div>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -64,19 +93,80 @@
           
             // Your web app's Firebase configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyDuY-zL3p94Lw3dZu04yHfAbJ58bvy2Wh4",
-                authDomain: "software-52c41.firebaseapp.com",
-                databaseURL: "https://software-52c41-default-rtdb.firebaseio.com",
-                projectId: "software-52c41",
-                storageBucket: "software-52c41.appspot.com",
-                messagingSenderId: "1028334921195",
-                appId: "1:1028334921195:web:c5bb73aefc8809ed5825ae"
+                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
+                authDomain: "software-26de8.firebaseapp.com",
+                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
+                projectId: "software-26de8",
+                storageBucket: "software-26de8.appspot.com",
+                messagingSenderId: "978433740455",
+                appId: "1:978433740455:web:47195227518cbad57dd582"
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            import{getDatabase, ref,get, set, child, update, remove}
+            import{getDatabase, ref,get, set, child, update, remove ,onValue,push}
             from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
             const db = getDatabase();
+            const dbRef = ref(getDatabase());
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            var id=url.searchParams.get('id')
+            function getdata(){
+                get(child(dbRef, `${id}/`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    snapshot.forEach(function(child) {
+                        var keys=child.key;
+                        classArraay.push(keys);
+                    }    
+                )    
+                indexclass=classArraay[2];
+                getStdId(indexclass);        
+                } else {
+                    console.log("No data available");
+                }
+                }).catch((error) => {
+                console.error(error);
+                }); 
+                const nameref=ref(db,id+"/name");
+                onValue(nameref, (snapshot) => {
+                    teachername = snapshot.val();
+            });
+            }
+            function getStdId(classname){
+                studentID=[];
+                get(child(dbRef, `${id}/${classname}`)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        snapshot.forEach(function(child) {
+                            var keys=child.key;
+                            studentID.push(keys);
+                            }
+                        )
+                        studentID.length=studentID.length-2;
+                        setstdname(classname)
+                    } else {
+                        console.log("No data available");
+                    }
+                }).catch((error) => {
+                console.error(error);
+                }); 
+                
+            }
+            function setstdname(classname){
+                studentID.forEach(function(child){
+                    const stdnameref=ref(db,id+"/"+classname+"/"+child+"/name");
+                    onValue(stdnameref,(snapshot)=>{
+                        studentName.push(snapshot.val());
+                    })
+                    const stdStateref=ref(db,id+"/"+classname+"/"+child+"/state");
+                    onValue(stdStateref,(snapshot)=>{
+                        if(snapshot.val()==1){
+                            studentState.push("已簽到");
+                        }else{
+                            studentState.push("未簽到")
+                        }
+                        
+                    })
+                })
+            }
             var getUrlString = location.href;
             var url = new URL(getUrlString);
             function showclass(){
@@ -104,7 +194,119 @@
                 main.classList.remove("active");
                 table1.classList.remove("active");
             }
+            let list=document.querySelectorAll(".buttonlist input");
+            function activeLink(){
+                list.forEach((item)=>
+                item.classList.remove('hovered'));
+                this.classList.add('hovered');
+            }
+            list.forEach((item)=>
+            item.addEventListener('click',activeLink));
+            getdata();
+            setTimeout('addclass()',1000);
+            setTimeout('setname()',1000);
+
+            var classframe=document.querySelector(".classframe");
+            var classimg=document.querySelector(".classimg");
+            var b1=document.getElementById("b1");
+            var b2=document.getElementById("b2");
+            var b3=document.getElementById("b3");
+            var b4=document.getElementById("b4");
+            b1.addEventListener("click",b1show);
+            b2.addEventListener("click",b2show);
+            b3.addEventListener("click",b3show);
+            b4.addEventListener("click",b4show);
+            function b1show(){
+                classframe.style.display="flex";
+                classimg.style.display="none"
+            }
+            function b2show(){
+                classframe.style.display="none";
+                classimg.style.display="flex"
+            }
+            function b3show(){
+                classframe.style.display="none";
+                classimg.style.display="none"
+                classframe.style.display="none";
+            }
+            function b4show(){
+                classframe.style.display="none";
+                classimg.style.display="none"
+                classframe.style.display="none";
+            }
+            var add=document.getElementById("add");
+            var del=document.getElementById("del");
+            var reload=document.getElementById("reload");
+            add.addEventListener("click",addstd);
+            del.addEventListener("click",waitdel);
+            function waitdel(){
+                getStdId(indexclass);  
+                loadprint();
+                setTimeout(delstd,1000);
+            }
+            function addstd(){
+                let stdid=prompt("學生學號");
+                if(stdid){
+                    let stdname=prompt("學生姓名");
+                    if(stdname){
+                    set(ref(db, id+"/"+indexclass+"/"+stdid),{
+                        name:stdname,
+                        state:0
+                    })
+                    .catch((error)=>{
+                        alert("Error!"+error);
+                    });
+                }
+                }
+            }
+            function delstd(){
+                loadhide();
+                let stdid=prompt("學生學號");
+                let stdname="";
+                let i;
+                for(i=0;i<studentID.length;i++){
+                    if(parseInt(stdid)==studentID[i]){
+                        stdname=studentName[i];
+                        break;
+                    }
+                   
+                }
+                if(stdname!=""){
+                    let key =confirm("是否刪除?");
+                    if(key){
+                        alert("已刪除");
+                        remove(ref(db, id+"/"+indexclass+"/"+stdid))
+                        .catch((error)=>{
+                            alert("Error!"+error);
+                        });
+                    }
+                }else if(stdid){
+                    alert("查無資料");
+                }
             
+            }
+            loadhide();
+            function loadhide(){
+                document.getElementById("load0").style.display="none";
+                document.getElementById("load1").style.display="none";
+                document.getElementById("load2").style.display="none";
+                document.getElementById("load3").style.display="none";
+                document.getElementById("load4").style.display="none";
+                document.getElementById("load5").style.display="none";
+                document.getElementById("load6").style.display="none";
+                document.getElementById("load7").style.display="none";
+            }
+            function loadprint(){
+                document.getElementById("load0").style.display="block";
+                document.getElementById("load1").style.display="block";
+                document.getElementById("load2").style.display="block";
+                document.getElementById("load3").style.display="block";
+                document.getElementById("load4").style.display="block";
+                document.getElementById("load5").style.display="block";
+                document.getElementById("load6").style.display="block";
+                document.getElementById("load7").style.display="block"; 
+            }
+
           </script>
 
     </body>

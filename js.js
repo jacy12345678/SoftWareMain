@@ -31,10 +31,13 @@ function addclass(){
         document.myForm.member.options[i-2]=new Option(classArraay[i]);	// 設定新選項
         document.myForm.member.length=classArraay.length-2;
     }
-
-    
 }
-
+function mainaddclass(){
+  for(var i=2;i<classArraay.length;i++){
+      document.member.options[i-2]=new Option(classArraay[i]);	// 設定新選項
+      document.member.length=classArraay.length-2;
+  }
+}
 function classchange(index){
   indexclass=classArraay[index+2];
   console.log(indexclass);
@@ -51,4 +54,3 @@ function setname(){
 function printClassName(){
   
 }
-

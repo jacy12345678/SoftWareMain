@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="nevigation">
+            <div class="nevigation ">
                 <ul>
                     <li>
                         <a href="#">
@@ -38,11 +38,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="main">
+            <div class="main ">
                 <div class="topbar">
                     <div class="toggle">
                         <ion-icon name="menu-outline"></ion-icon>
                         <ol id="tname"></ol>
+                        <p style="position: absolute; font-size: 40px; font-weight: 700; margin-left: 160px; ">課程</p>
                     </div>
                 </div>
                 <div class="show">
@@ -50,8 +51,8 @@
                         <select id="select1" onchange="classchange(this.selectedIndex)" name="member" size="4" style="width: 200px; font-size: 20px; margin-left: 10px;">
                         </select>
                         <div id="Name"></div>
+                        
                     </form>
-                    <ol id="studentList"></ol>
                     <div class="buttonlist">
                         <input type="button" value="所有名單" id="alllist">
                         <input type="button" value="已簽到名單" id="signedlist">
@@ -61,6 +62,7 @@
                             <ion-icon name="search-outline"></ion-icon>
                         </div>
                     </div>
+                    <ol id="studentList"></ol>
                 </div>
 
 
@@ -122,7 +124,6 @@
                 onValue(nameref, (snapshot) => {
                     teachername = snapshot.val();
             });
-                return new Promise((resolve ,reject)=>{resolve("Resolved");})
             }
             var Home=document.getElementById("home");
 
@@ -194,7 +195,7 @@
                 let i;
                 for(i=0;i<studentID.length;i++){
                     var img=document.createElement("img");
-                    var newP = document.createElement("hr");
+                    var newP = document.createElement("ol");
                     img.width="20";
                     img.height="20";
                     if(studentState[i]=="已簽到"){
@@ -202,7 +203,7 @@
                         }else{
                             img.src="no.png";
                         }
-                    var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                    var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
                     newP.appendChild(textNode);
                     document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
 
@@ -227,7 +228,7 @@
                 for(i=0;i<studentID.length;i++){
                     if(studentID[i].search(inputsearch.value)!=-1 || studentState[i].search(inputsearch.value)!=-1 || studentName[i].search(inputsearch.value)!=-1){
                         var img=document.createElement("img");
-                        var newP = document.createElement("hr");
+                        var newP = document.createElement("ol");
                         img.width="20";
                         img.height="20";
                         if(studentState[i]=="已簽到"){
@@ -235,7 +236,7 @@
                             }else{
                                 img.src="no.png";
                             }
-                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
                         newP.appendChild(textNode);
                         document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
                     }
@@ -253,7 +254,7 @@
                 for(i=0;i<studentID.length;i++){
                     if(studentState[i]=="已簽到"){
                         var img=document.createElement("img");
-                        var newP = document.createElement("hr");
+                        var newP = document.createElement("ol");
                         img.width="20";
                         img.height="20";
                         if(studentState[i]=="已簽到"){
@@ -261,7 +262,7 @@
                             }else{
                                 img.src="no.png";
                             }
-                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
                         newP.appendChild(textNode);
                         document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
                     }
@@ -273,7 +274,7 @@
                 for(i=0;i<studentID.length;i++){
                     if(studentState[i]=="未簽到"){
                         var img=document.createElement("img");
-                        var newP = document.createElement("hr");
+                        var newP = document.createElement("ol");
                         img.width="20";
                         img.height="20";
                         if(studentState[i]=="已簽到"){
@@ -281,7 +282,7 @@
                             }else{
                                 img.src="no.png";
                             }
-                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
+                        var textNode = document.createTextNode(studentID[i]+"\u3000\u3000"+studentName[i]+"\u3000\u3000\u3000\u3000\u3000\u3000\u3000"+studentState[i]+"\u3000");
                         newP.appendChild(textNode);
                         document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
                     }
