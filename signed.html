@@ -65,6 +65,12 @@
                                 <button id="reload">重製簽到狀態</button>
                             </div>
                         </div>
+                        <div class="changepassword">
+                            <p>密碼</p><input type="text" id="chpassword">
+                            <br>
+                            <p>確認密碼</p><input type="text" id="chpasswordRe">
+                            <button id="ChPsEnter">確認</button>
+                        </div>
                         <img src="課表.png" class="classimg" style="display: none;">
                     </div>
                 </div>
@@ -93,13 +99,13 @@
           
             // Your web app's Firebase configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
-                authDomain: "software-26de8.firebaseapp.com",
-                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
-                projectId: "software-26de8",
-                storageBucket: "software-26de8.appspot.com",
-                messagingSenderId: "978433740455",
-                appId: "1:978433740455:web:47195227518cbad57dd582"
+                apiKey: "AIzaSyDuY-zL3p94Lw3dZu04yHfAbJ58bvy2Wh4",
+                authDomain: "software-52c41.firebaseapp.com",
+                databaseURL: "https://software-52c41-default-rtdb.firebaseio.com",
+                projectId: "software-52c41",
+                storageBucket: "software-52c41.appspot.com",
+                messagingSenderId: "1028334921195",
+                appId: "1:1028334921195:web:c5bb73aefc8809ed5825ae"
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
@@ -111,7 +117,7 @@
             var url = new URL(getUrlString);
             var id=url.searchParams.get('id')
             function getdata(){
-                get(child(dbRef, `${id}/`)).then((snapshot) => {
+                get(child(dbRef, `老師/${id}/`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(child) {
                         var keys=child.key;
@@ -119,28 +125,27 @@
                     }    
                 )    
                 indexclass=classArraay[2];
-                getStdId(indexclass);        
+                getStdId(indexclass);       
                 } else {
                     console.log("No data available");
                 }
                 }).catch((error) => {
                 console.error(error);
                 }); 
-                const nameref=ref(db,id+"/name");
+                const nameref=ref(db,"老師/"+id+"/name");
                 onValue(nameref, (snapshot) => {
                     teachername = snapshot.val();
             });
             }
             function getStdId(classname){
                 studentID=[];
-                get(child(dbRef, `${id}/${classname}`)).then((snapshot) => {
+                get(child(dbRef, `老師/${id}/${classname}`)).then((snapshot) => {
                     if (snapshot.exists()) {
                         snapshot.forEach(function(child) {
                             var keys=child.key;
                             studentID.push(keys);
                             }
                         )
-                        studentID.length=studentID.length-2;
                         setstdname(classname)
                     } else {
                         console.log("No data available");
@@ -152,18 +157,13 @@
             }
             function setstdname(classname){
                 studentID.forEach(function(child){
-                    const stdnameref=ref(db,id+"/"+classname+"/"+child+"/name");
+                    const stdnameref=ref(db,"學生/"+child+"/name");
                     onValue(stdnameref,(snapshot)=>{
                         studentName.push(snapshot.val());
                     })
-                    const stdStateref=ref(db,id+"/"+classname+"/"+child+"/state");
+                    const stdStateref=ref(db,"學生/"+child+"/"+classname+"/sign");
                     onValue(stdStateref,(snapshot)=>{
-                        if(snapshot.val()==1){
                             studentState.push("已簽到");
-                        }else{
-                            studentState.push("未簽到")
-                        }
-                        
                     })
                 })
             }
@@ -203,11 +203,17 @@
             list.forEach((item)=>
             item.addEventListener('click',activeLink));
             getdata();
-            setTimeout('addclass()',1000);
-            setTimeout('setname()',1000);
-
+            setTimeout(function(){
+                addclass();
+                loadhide();
+            },2500);
+            setTimeout(function(){
+                setname();
+                loadhide();
+            },2500);
             var classframe=document.querySelector(".classframe");
             var classimg=document.querySelector(".classimg");
+            var changepassword=document.querySelector(".changepassword");
             var b1=document.getElementById("b1");
             var b2=document.getElementById("b2");
             var b3=document.getElementById("b3");
@@ -219,39 +225,53 @@
             function b1show(){
                 classframe.style.display="flex";
                 classimg.style.display="none"
+                changepassword.style.display="none"
             }
             function b2show(){
                 classframe.style.display="none";
                 classimg.style.display="flex"
+                changepassword.style.display="none"
             }
             function b3show(){
                 classframe.style.display="none";
                 classimg.style.display="none"
-                classframe.style.display="none";
+                changepassword.style.display="block"
             }
             function b4show(){
                 classframe.style.display="none";
                 classimg.style.display="none"
-                classframe.style.display="none";
+                changepassword.style.display="none"
             }
             var add=document.getElementById("add");
             var del=document.getElementById("del");
             var reload=document.getElementById("reload");
             add.addEventListener("click",addstd);
             del.addEventListener("click",waitdel);
+            reload.addEventListener("click",reloadstate);
             function waitdel(){
                 getStdId(indexclass);  
                 loadprint();
                 setTimeout(delstd,1000);
             }
             function addstd(){
-                let stdid=prompt("學生學號");
+                let stdid=prompt(indexclass+" 新增學生\n輸入學生學號");
                 if(stdid){
                     let stdname=prompt("學生姓名");
                     if(stdname){
-                    set(ref(db, id+"/"+indexclass+"/"+stdid),{
+                    set(ref(db, "老師/"+id+"/"+indexclass+"/"+stdid),{
                         name:stdname,
-                        state:0
+                    })
+                    .catch((error)=>{
+                        alert("Error!"+error);
+                    });
+                    set(ref(db, "學生/"+stdid),{
+                        name:stdname
+                    })
+                    .catch((error)=>{
+                        alert("Error!"+error);
+                    });
+                    set(ref(db, "學生/"+stdid+"/"+indexclass),{
+                        sign:"未簽到"
                     })
                     .catch((error)=>{
                         alert("Error!"+error);
@@ -272,10 +292,14 @@
                    
                 }
                 if(stdname!=""){
-                    let key =confirm("是否刪除?");
+                    let key =confirm("是否刪除"+stdid+stdname+"?");
                     if(key){
                         alert("已刪除");
-                        remove(ref(db, id+"/"+indexclass+"/"+stdid))
+                        remove(ref(db, "老師/"+id+"/"+indexclass+"/"+stdid))
+                        .catch((error)=>{
+                            alert("Error!"+error);
+                        });
+                        remove(ref(db, "學生/"+stdid+"/"+indexclass))
                         .catch((error)=>{
                             alert("Error!"+error);
                         });
@@ -285,7 +309,24 @@
                 }
             
             }
-            loadhide();
+            function reloadstate(){
+                studentID.forEach(event=>{
+                    set(ref(db, "學生/"+event+"/"+indexclass),{
+                        sign:"未簽到"
+                    })
+                    .catch((error)=>{
+                        alert("Error!"+error);
+                    });
+                })
+                loadprint();
+                setTimeout(function(){
+                    alert(indexclass+" 學生簽到狀態已重製");
+                    loadhide();
+                },500)
+                
+            }
+
+
             function loadhide(){
                 document.getElementById("load0").style.display="none";
                 document.getElementById("load1").style.display="none";

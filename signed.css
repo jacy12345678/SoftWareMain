@@ -193,7 +193,7 @@ body
 }
 .buttonlist input
 {
-    width: 180px;
+    width: 212px;
     height: 50px;
     font-size: 20px;
     background-color: #B3D9D9;
@@ -248,11 +248,40 @@ body
     padding: 5px;
     border-radius: 20px;
 }
-.add
+#add,#del,#reload
 {
-    
+    cursor: pointer;
+    background-color: #00AEAE;
+    color: white;
+}
+#add:hover,#del:hover,#reload:hover
+{
+    background-color: #1c7979;
+    color: white;
 }
 .classframe
 {
     display: flex;
+}
+.changepassword input{
+    border-radius: 10px;
+    cursor:text;
+    background-color: white;
+    width: 250px;
+}
+.changepassword input:hover{
+    background-color: white;
+}
+.changepassword{
+    margin-top: 3em;
+    margin-left: 10em;
+    display: none;
+    font-size: 30px;
+    
+}
+#ChPsEnter
+{
+    font-size: 30px;
+    background-color: white;
+    border-radius: 5px;
 }

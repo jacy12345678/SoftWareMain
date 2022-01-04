@@ -6,6 +6,7 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
         <title>南華點名系統</title>
         <link rel="stylesheet" type ="text/css" href="mainstyle.css">
+        <link rel="stylesheet" type ="text/css" href="icon.css">
     </head>
     <body>
         <div class="container">
@@ -67,7 +68,16 @@
 
 
             </div>
-            
+            <div style="color: var(--green) " class="la-ball-spin-clockwise la-2x">
+                <div id="load0"></div>
+                <div id="load1"></div>
+                <div id="load2"></div>
+                <div id="load3"></div>
+                <div id="load4"></div>
+                <div id="load5"></div>
+                <div id="load6"></div>
+                <div id="load7"></div>
+            </div>
             
         </div>
         
@@ -81,14 +91,16 @@
           
             // Your web app's Firebase configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
-                authDomain: "software-26de8.firebaseapp.com",
-                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
-                projectId: "software-26de8",
-                storageBucket: "software-26de8.appspot.com",
-                messagingSenderId: "978433740455",
-                appId: "1:978433740455:web:47195227518cbad57dd582"
+                apiKey: "AIzaSyDuY-zL3p94Lw3dZu04yHfAbJ58bvy2Wh4",
+                authDomain: "software-52c41.firebaseapp.com",
+                databaseURL: "https://software-52c41-default-rtdb.firebaseio.com",
+                projectId: "software-52c41",
+                storageBucket: "software-52c41.appspot.com",
+                messagingSenderId: "1028334921195",
+                appId: "1:1028334921195:web:c5bb73aefc8809ed5825ae"
             };
+
+            
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             import{getDatabase, ref,get, set, child, update, remove,onValue}
@@ -100,7 +112,7 @@
             var url = new URL(getUrlString);
             var id=url.searchParams.get('id')
             function getdata(){
-                get(child(dbRef, `${id}/`)).then((snapshot) => {
+                get(child(dbRef, `老師/${id}/`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     console.log(snapshot.val());
                     snapshot.forEach(function(child) {
@@ -110,7 +122,7 @@
                     }
                     
                 )
-                    indexclass=classArraay[2];
+                    indexclass=classArraay[1];
                     getStdId(indexclass);
                     
                 
@@ -120,7 +132,7 @@
                 }).catch((error) => {
                 console.error(error);
                 }); 
-                const nameref=ref(db,id+"/name");
+                const nameref=ref(db,"老師/"+id+"/name");
                 onValue(nameref, (snapshot) => {
                     teachername = snapshot.val();
             });
@@ -149,14 +161,13 @@
             }
             function getStdId(classname){
                 studentID=[];
-                get(child(dbRef, `${id}/${classname}`)).then((snapshot) => {
+                get(child(dbRef, `老師/${id}/${classname}`)).then((snapshot) => {
                     if (snapshot.exists()) {
                         snapshot.forEach(function(child) {
                             var keys=child.key;
                             studentID.push(keys);
                             }
                         )
-                        studentID.length=studentID.length-2;
                         console.log(classname+":"+studentID);
                         printStdState(classname);
                     } else {
@@ -173,21 +184,15 @@
                 studentName=[];
                 studentState=[];
                 studentID.forEach(function(child){
-                    const stdnameref=ref(db,id+"/"+classname+"/"+child+"/name");
+                    const stdnameref=ref(db,"老師/"+id+"/"+classname+"/"+child+"/name");
                     onValue(stdnameref,(snapshot)=>{
                         studentName.push(snapshot.val());
                     })
-                    const stdStateref=ref(db,id+"/"+classname+"/"+child+"/state");
+                    const stdStateref=ref(db,"學生/"+child+"/"+classname+"/sign");
                     onValue(stdStateref,(snapshot)=>{
-                        if(snapshot.val()==1){
-                            studentState.push("已簽到");
-                        }else{
-                            studentState.push("未簽到")
-                        }
-                        
+                            studentState.push(snapshot.val()); 
                     })
                 })
-                
                 setTimeout(olprint,500);
             }
             function olprint(){
@@ -214,8 +219,14 @@
                 
             });
             getdata();
-            setTimeout('addclass()',1000);
-            setTimeout('setname()',1000);
+            setTimeout(function(){
+                addclass();
+                loadhide();
+            },2000);
+            setTimeout(function(){
+                setname();
+                loadhide();
+            },2000);
             var inputsearch=document.getElementById("inputsearch");
             inputsearch.addEventListener("keyup",function(event){
             if(event.keyCode==13){
@@ -287,6 +298,26 @@
                         document.getElementById("studentList").appendChild(newP).appendChild(img)   ;
                     }
                 }
+            }
+            function loadhide(){
+                document.getElementById("load0").style.display="none";
+                document.getElementById("load1").style.display="none";
+                document.getElementById("load2").style.display="none";
+                document.getElementById("load3").style.display="none";
+                document.getElementById("load4").style.display="none";
+                document.getElementById("load5").style.display="none";
+                document.getElementById("load6").style.display="none";
+                document.getElementById("load7").style.display="none";
+            }
+            function loadprint(){
+                document.getElementById("load0").style.display="block";
+                document.getElementById("load1").style.display="block";
+                document.getElementById("load2").style.display="block";
+                document.getElementById("load3").style.display="block";
+                document.getElementById("load4").style.display="block";
+                document.getElementById("load5").style.display="block";
+                document.getElementById("load6").style.display="block";
+                document.getElementById("load7").style.display="block"; 
             }
           </script>
           <script src="js.js"></script>
