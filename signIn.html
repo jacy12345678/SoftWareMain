@@ -34,13 +34,13 @@
           
             // Your web app's Firebase configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyBE5oXkSs0rHF6prEgw_kGm0K-j65oCupY"   ,
-                authDomain: "software-26de8.firebaseapp.com",
-                databaseURL: "https://software-26de8-default-rtdb.firebaseio.com",
-                projectId: "software-26de8",
-                storageBucket: "software-26de8.appspot.com",
-                messagingSenderId: "978433740455",
-                appId: "1:978433740455:web:47195227518cbad57dd582"
+                apiKey: "AIzaSyDuY-zL3p94Lw3dZu04yHfAbJ58bvy2Wh4",
+                authDomain: "software-52c41.firebaseapp.com",
+                databaseURL: "https://software-52c41-default-rtdb.firebaseio.com",
+                projectId: "software-52c41",
+                storageBucket: "software-52c41.appspot.com",
+                messagingSenderId: "1028334921195",
+                appId: "1:1028334921195:web:c5bb73aefc8809ed5825ae"
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
@@ -55,13 +55,12 @@
             function enter(){
             var pw;
             var b=true;
-            get(child(dbRef, `${document.getElementById("account").value}/password`)).then((v)=>{pw=v.val()})
-            get(child(dbRef, `/`)).then((snapshot) => {
+            get(child(dbRef, `老師/${document.getElementById("account").value}/password`)).then((v)=>{pw=v.val()})
+            get(child(dbRef, `老師/`)).then((snapshot) => {
             if (snapshot.exists()) {
                 console.log(snapshot.val());
                 snapshot.forEach(function(child) {
                     var keys=child.key;
-                    console.log("keys="+child.val);
                     var enteraccount=document.getElementById("account").value;
                     console.log("enta="+enteraccount);
                     var enterpw=document.getElementById("password").value;
@@ -70,7 +69,7 @@
                     if(enteraccount==keys&&enterpw==pw){
                         parent.mainpw=enterpw;
                         parent.mainaccount=enteraccount;
-                        const nameref=ref(db,enteraccount+"/name");
+                        const nameref=ref(db,"老師/"+enteraccount+"/name");
                         onValue(nameref, (snapshot) => {
                         teachername = snapshot.val();
                         });

@@ -268,9 +268,13 @@ body
     cursor:text;
     background-color: white;
     width: 250px;
+    border: 3px solid black;
 }
-.changepassword input:hover{
+.changepassword input:hover,
+.changepassword input.hovered
+{
     background-color: white;
+    border-bottom: 3px solid black;
 }
 .changepassword{
     margin-top: 3em;
@@ -279,9 +283,20 @@ body
     font-size: 30px;
     
 }
-#ChPsEnter
+#ChPwEnter
 {
     font-size: 30px;
     background-color: white;
     border-radius: 5px;
+}
+.about
+{
+    margin: 10px;
+    font-size: 35px;
+    display: none;
+}
+.classimg
+{
+    width: 600px;
+    height: 500px;
 }
